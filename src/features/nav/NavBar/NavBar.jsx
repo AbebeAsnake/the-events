@@ -4,18 +4,17 @@ import { NavLink, Link , withRouter } from "react-router-dom";
 import { Menu, Container, Button } from "semantic-ui-react";
 import SignedOutMenu from "./Menus/SignedOutMenu";
 import SignedInMenu from "./Menus/SignedInMenu";
-class NavBar extends Component {
-  state = {
-    authenticated: false
-  };
+class NavBar extends React.Component {
+  state = {authenticated :false}
+ 
 
   handleSignIn = ()=>{
-    this.state({
+    this.setState({
       authenticated : true
     })
   }
    handleSignOut = () =>{
-     this.state({
+     this.setState({
        authenticated : false
      });
      this.props.history.push('/')
@@ -27,12 +26,13 @@ class NavBar extends Component {
         <Menu inverted fixed="top">
           <Container>
             <Menu.Item as={Link} to="/" header>
-              <img src="assets/logo.png" alt="logo" />
+              <img src="/assets/logo.png" alt="logo" />
               The Events{" "}
             </Menu.Item>
             <Menu.Item as={NavLink} to="/events" name="Events" />
-            <Menu.Item as={NavLink} to="/people" name="People" />
-
+           {authenticated && 
+            <Menu.Item as={NavLink} to="/people" name="People" />}
+{authenticated &&
             <Menu.Item>
               <Button
                 as={Link}
@@ -42,8 +42,9 @@ class NavBar extends Component {
                 inverted
                 content="Create Event"
               />
-            </Menu.Item>
-            {authenticated ? (<SignedInMenu SignOut = {this.handleSignOut}/>) : (<SignedOutMenu  signIn = {this.handleSignIn}/>)}
+            </Menu.Item>}
+            {authenticated ? <SignedInMenu signOut = {this.handleSignOut}/> :
+             <SignedOutMenu  signIn = {this.handleSignIn}/>}
           </Container>
         </Menu>
       </div>
